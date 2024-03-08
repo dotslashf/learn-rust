@@ -89,6 +89,52 @@ fn main() {
     let w3 = &mut world;
     println!("{}", w3);
     println!("{}", undangle());
+
+    let first_word = String::from("Hello world");
+    println!(
+        "Length of first word from \"{}\" is {} ",
+        first_word,
+        first_word_length(&first_word)
+    );
+
+    let hello = &first_word[0..5];
+    let world = &first_word[6..11];
+    println!("{} {}", hello, world);
+
+    let to_n = &first_word[0..5];
+    let to_n_other = &first_word[..5];
+    println!("{} {}", to_n, to_n_other);
+
+    let first_world_len = first_word.len();
+    let start_n = &first_word[6..first_world_len];
+    let start_n_other = &first_word[6..];
+    println!("{} {}", start_n, start_n_other);
+
+    let start_n_to = &first_word[0..first_world_len];
+    let start_n_to_other = &first_word[..];
+    println!("{} {}", start_n_to, start_n_to_other);
+
+    println!("{}", first_word_using_slices(&first_word));
+
+    let word_string = String::from("Hello World");
+    println!(
+        "{} {} {}",
+        first_word_with_literals(&word_string[0..6]),
+        first_word_with_literals(&word_string[..]),
+        first_word_with_literals(&word_string)
+    );
+
+    let word_literals = "World Hello";
+    println!(
+        "{} {} {}",
+        first_word_with_literals(&word_literals[0..6]),
+        first_word_with_literals(&word_literals[..]),
+        first_word_with_literals(&word_literals),
+    );
+
+    let int_arr = [1, 2, 3, 4, 5];
+    let slices_arr = &int_arr[0..3];
+    assert_eq!(slices_arr, [1, 2, 3]);
 }
 
 fn takes_ownership(s: String) {
@@ -133,4 +179,40 @@ fn dangle() -> &String {
 fn undangle() -> String {
     let s = String::from("Undangle!");
     s
+}
+
+fn first_word_length(s: &String) -> usize {
+    let bytes = s.as_bytes();
+
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return i;
+        }
+    }
+
+    s.len()
+}
+
+fn first_word_using_slices(s: &String) -> &str {
+    let bytes = s.as_bytes();
+
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return &s[..i];
+        }
+    }
+
+    &s[..]
+}
+
+fn first_word_with_literals(s: &str) -> &str {
+    let bytes = s.as_bytes();
+
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return &s[..i];
+        }
+    }
+
+    &s[..]
 }
